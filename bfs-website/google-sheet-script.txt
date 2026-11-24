@@ -1,0 +1,178 @@
+=====================================================================
+ স্টুডেন্টদের তথ্য (নাম, ফোন, বুকিং) Google Sheet-এ জমা করার নিয়ম — ১০ মিনিটের কাজ, ফ্রি
+=====================================================================
+
+কেন দরকার?
+  ওয়েবসাইটে স্টুডেন্ট নাম/ফোন দিলে, Eligibility চেক করলে বা অ্যাপয়েন্টমেন্ট বুক করলে —
+  সেই তথ্য আপনার কাছে আসতে হবে। এই ধাপগুলো করলে সব একটা Google Sheet-এ অটোমেটিক জমা হবে।
+  (বুকিং করলে স্টুডেন্টের WhatsApp থেকেও আপনার নাম্বারে মেসেজ আসবে।)
+
+ধাপ ১: https://sheets.google.com -এ গিয়ে নতুন Sheet খুলুন। নাম দিন: BFS Leads
+ধাপ ২: উপরের মেনু থেকে Extensions → Apps Script
+ধাপ ৩: যা লেখা আছে সব মুছে নিচের কোডটা পেস্ট করুন, তারপর Save (💾) চাপুন।
+
+---------------------------- কোড শুরু ----------------------------
+function doPost(e) {
+  /* CRM থেকে EMGS অগ্রগতি জানতে চাইলে (JSON আসে) */
+  if (e && e.postData && /^\s*\{/.test(e.postData.contents || "")) {
+    try { var body = JSON.parse(e.postData.contents); if (body.action === "emgs_track") return jsonOut(emgsTrackMany(body.list || [])); }
+    catch (err) { return jsonOut({ ok: false, error: String(err) }); }
+  }
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var p = e.parameter;
+  var name = p.type || "other";
+  var sh = ss.getSheetByName(name) || ss.insertSheet(name);
+  var keys = Object.keys(p);
+  if (sh.getLastRow() === 0) sh.appendRow(keys);
+  var head = sh.getRange(1, 1, 1, sh.getLastColumn()).getValues()[0];
+  keys.forEach(function (k) {
+    if (head.indexOf(k) === -1) { head.push(k); sh.getRange(1, head.length).setValue(k); }
+  });
+  sh.appendRow(head.map(function (k) { return p[k] || ""; }));
+  return ContentService.createTextOutput("ok");
+}
+
+/* ===== EMGS অগ্রগতি (%) — EMGS-এর "Track My Application" পেজ থেকে, পাসপোর্ট নাম্বার + Nationality (Bangladesh) দিয়ে =====
+   CRM একসাথে কয়েকজনের পাসপোর্ট পাঠায়; প্রতিটার জন্য EMGS-এর পেজে একবার খোঁজে আর % ও অবস্থা ফেরত দেয়।
+   কিছু জমা রাখে না। পরীক্ষা: নিচের testEmgs-এ একটা আসল পাসপোর্ট নাম্বার বসিয়ে ▶ Run → View → Logs */
+var EMGS_FORM = "https://visa.educationmalaysia.gov.my/emgs/application/searchForm/";
+var EMGS_POST = "https://visa.educationmalaysia.gov.my/emgs/application/searchPost/";
+function jsonOut(o) { return ContentService.createTextOutput(JSON.stringify(o)).setMimeType(ContentService.MimeType.JSON); }
+function emgsJar(res, jar) {
+  var h = res.getAllHeaders()["Set-Cookie"]; if (!h) return jar;
+  (Array.isArray(h) ? h : [h]).forEach(function (c) { var kv = String(c).split(";")[0]; jar[kv.split("=")[0]] = kv; });
+  return jar;
+}
+function emgsCookie(jar) { return Object.keys(jar).map(function (k) { return jar[k]; }).join("; "); }
+function emgsTrack(passport, nat) {
+  var jar = {}, ua = "Mozilla/5.0";
+  var r1 = UrlFetchApp.fetch(EMGS_FORM, { headers: { "User-Agent": ua }, muteHttpExceptions: true }); emgsJar(r1, jar);
+  var m = r1.getContentText().match(/name="form_key" type="hidden" value="([^"]+)"/);
+  if (!m) return { ok: false, error: "EMGS পেজ খোলেনি" };
+  var r2 = UrlFetchApp.fetch(EMGS_POST, { method: "post", followRedirects: false, muteHttpExceptions: true,
+    payload: { form_key: m[1], travel_doc_no: passport, nationality: nat || "BD", agreement: "1" },
+    headers: { "User-Agent": ua, Cookie: emgsCookie(jar), Referer: EMGS_FORM } });
+  emgsJar(r2, jar);
+  var hd = r2.getAllHeaders(), loc = hd["Location"] || hd["location"], html = r2.getContentText();
+  if (loc) html = UrlFetchApp.fetch(Array.isArray(loc) ? loc[0] : loc, { headers: { "User-Agent": ua, Cookie: emgsCookie(jar), Referer: EMGS_FORM }, muteHttpExceptions: true }).getContentText();
+  return emgsParse(html);
+}
+function emgsParse(html) {
+  var text = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, " ").replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/\s+/g, " ");
+  if (/No record found/i.test(text)) return { ok: true, found: false };
+  var i = text.indexOf("Check Application Status"), body = i >= 0 ? text.slice(i) : text;
+  var pm = body.match(/(\d{1,3})\s*%/), pct = pm ? Math.min(100, +pm[1]) : null;
+  var sm = body.match(/Status\s*:?\s*([A-Za-z][A-Za-z0-9 ,()\/'&-]{2,140}?)(?=\s*\d{1,3}\s*%|\s(?:Date|Remark|Travel|Nationality|Name|Back|Copyright)\b|$)/i);
+  return { ok: true, found: pct !== null || !!sm, percent: pct, status: sm ? sm[1].trim().slice(0, 140) : null, raw: body.slice(0, 400) };
+}
+function emgsTrackMany(list) {
+  var out = {};
+  list.slice(0, 25).forEach(function (x) {
+    try { out[x.id] = emgsTrack(String(x.passport || "").toUpperCase().replace(/[^A-Z0-9]/g, ""), x.nat || "BD"); }
+    catch (err) { out[x.id] = { ok: false, error: String(err) }; }
+    Utilities.sleep(700);
+  });
+  return { ok: true, results: out };
+}
+function testEmgs() { Logger.log(JSON.stringify(emgsTrack("A01234567", "BD"))); }   // আসল একটা পাসপোর্ট নাম্বার বসিয়ে চালান
+
+/* ===== লাইভ EMGS / ভিসা ফি — প্রতিদিন ইউনিভার্সিটির ওয়েবসাইট থেকে পড়ে "emgs" ট্যাবে রাখে ===== */
+// kw = ওয়েবপেজের যে লেখার পাশে ফি-টা থাকে; তার সবচেয়ে কাছের "RM x,xxx" সংখ্যাটা নেওয়া হয়
+// after: true = kw-এর ঠিক পরের সংখ্যাটা নেবে
+var EMGS_SOURCES = [
+  { id: "segi",      url: "https://university.segi.edu.my/international-students/",                         kw: "visa application fee" },
+  { id: "city",      url: "https://city.edu.my/admission-scholarships/international-students/",             kw: "EMGS student visa processing fee" },
+  { id: "ucsi",      url: "https://www.ucsiuniversity.edu.my/admission-procedure/international/Kuala-lumpur", kw: "EMGS" },
+  { id: "uow",       url: "https://www.uow.edu.my/study-at-uow-malaysia/international-student/application/", kw: "Others", after: true },
+  { id: "cyberjaya", url: "https://cyberjaya.edu.my/admission/financial-aid-options/fees-structure-international", kw: "EMGS fees of", after: true },
+  { id: "bac",       url: "https://www.bac.edu.my/bac/applying-for-your-student-visa/",                     kw: "student visa payment of", after: true },
+  { id: "lsbf",      url: "https://lsbf.edu.my/admissions/international-students/",                         kw: "student visa processing fee" },
+  { id: "klust",     url: "https://klust.edu.my/admissions/international-students/",                        kw: "processing fee" },
+  { id: "genovasi",  url: "https://www.genovasi.edu.my/copy-of-malaysia",                                   kw: "EMGS student visa processing fee" }
+];
+function emgsFromPage(html, kw, after) {
+  var text = html.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/gi, " ").replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/\s+/g, " ");
+  var at = text.toLowerCase().indexOf(kw.toLowerCase());
+  if (at < 0) return null;
+  var win = text.slice(Math.max(0, at - 250), at + kw.length + 250), re = /RM\s?([\d,]{3,6})/gi, m, best = null, dist = 1e9;
+  while ((m = re.exec(win))) {
+    var n = +m[1].replace(/,/g, ""), d = Math.abs(m.index - 250);
+    if (after && m.index < 250 + kw.length) continue;
+    if (n >= 500 && n <= 9000 && d < dist) { best = n; dist = d; }
+  }
+  return best;
+}
+function updateEmgs() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet(), sh = ss.getSheetByName("emgs") || ss.insertSheet("emgs");
+  if (sh.getLastRow() === 0) sh.appendRow(["id", "rm", "checked", "status", "manual_rm (নিজে বসাতে চাইলে)", "url"]);
+  var rows = sh.getDataRange().getValues(), idx = {};
+  rows.forEach(function (r, i) { if (i) idx[r[0]] = i + 1; });
+  var today = Utilities.formatDate(new Date(), "Asia/Dhaka", "dd/MM/yyyy");
+  EMGS_SOURCES.forEach(function (s) {
+    var rm = null, status = "";
+    try {
+      var res = UrlFetchApp.fetch(s.url, { muteHttpExceptions: true, followRedirects: true, headers: { "User-Agent": "Mozilla/5.0" } });
+      if (res.getResponseCode() === 200) { rm = emgsFromPage(res.getContentText(), s.kw, s.after); status = rm ? "ok" : "সংখ্যা পাওয়া যায়নি"; }
+      else status = "সাইট খোলেনি (" + res.getResponseCode() + ")";
+    } catch (err) { status = "এরর: " + err; }
+    var row = idx[s.id];
+    if (!row) { sh.appendRow([s.id, rm || "", rm ? today : "", status, "", s.url]); idx[s.id] = sh.getLastRow(); return; }
+    if (rm) sh.getRange(row, 2, 1, 2).setValues([[rm, today]]);   // না পেলে আগের সংখ্যা থেকে যায়
+    sh.getRange(row, 4).setValue(status); sh.getRange(row, 6).setValue(s.url);
+  });
+}
+function doGet(e) {
+  if (!e || !e.parameter || e.parameter.action !== "emgs") return ContentService.createTextOutput("ok");
+  var sh = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("emgs"), out = {};
+  if (sh) sh.getDataRange().getValues().forEach(function (r, i) {
+    if (!i) return;
+    var rm = +r[4] || +r[1];                                         // manual_rm থাকলে সেটাই
+    if (rm) out[r[0]] = { rm: rm, checked: r[4] ? "manual" : (r[2] instanceof Date ? Utilities.formatDate(r[2], "Asia/Dhaka", "dd/MM/yyyy") : String(r[2])) };
+  });
+  return ContentService.createTextOutput(JSON.stringify({ ok: true, emgs: out })).setMimeType(ContentService.MimeType.JSON);
+}
+// একবার চালান (উপরে ফাংশন বেছে ▶ Run): প্রতিদিন সকালে অটো আপডেট চালু হবে
+function setup() {
+  ScriptApp.getProjectTriggers().forEach(function (t) { if (t.getHandlerFunction() === "updateEmgs") ScriptApp.deleteTrigger(t); });
+  ScriptApp.newTrigger("updateEmgs").timeBased().everyDays(1).atHour(6).create();
+  updateEmgs();
+}
+---------------------------- কোড শেষ -----------------------------
+
+ধাপ ৪: উপরে ডানদিকে Deploy → New deployment
+        - ⚙️ চাকা চিহ্নে ক্লিক করে "Web app" বেছে নিন
+        - Execute as: Me
+        - Who has access: Anyone
+        - Deploy চাপুন → Google অনুমতি চাইবে → Allow
+ধাপ ৫: একটা URL দেবে (https://script.google.com/macros/s/..../exec) — কপি করুন।
+ধাপ ৬: ওয়েবসাইটের js/data.js ফাইল খুলে এই লাইনটা খুঁজুন:
+          sheetUrl: "",
+        দুই কোটেশনের মাঝে URL বসিয়ে দিন, যেমন:
+          sheetUrl: "https://script.google.com/macros/s/AKfy..../exec",
+        সেভ করুন।
+
+ব্যস! এখন Sheet-এ আলাদা আলাদা ট্যাবে জমা হবে:
+   new_visitor        → যে-ই সাইটে ঢুকে নাম-ফোন দিল
+   eligibility_check  → কার রেজাল্ট কী, GPA, বাজেট, বিষয়
+   appointment        → কে কবে কখন অফিসে আসবে  ⭐ (সবচেয়ে গুরুত্বপূর্ণ)
+   quiz, whatsapp_chat
+
+=====================================================================
+ লাইভ EMGS / ভিসা ফি চালু করা (একবারের কাজ, ৫ মিনিট)
+=====================================================================
+আপনার Sheet আগে থেকেই বানানো থাকলে শুধু এটুকু করুন:
+  ১. BFS Leads Sheet → Extensions → Apps Script খুলুন
+  ২. পুরনো কোড মুছে উপরের নতুন পুরো কোডটা পেস্ট করে Save
+  ৩. উপরের ফাংশনের তালিকা থেকে "setup" বেছে ▶ Run চাপুন → অনুমতি চাইলে Allow
+     (এতে "emgs" নামে নতুন ট্যাব হবে আর প্রতিদিন সকাল ৬টায় অটো আপডেট চালু হবে)
+  ৪. Deploy → Manage deployments → ✏️ Edit → Version: "New version" → Deploy
+     (এভাবে করলে লিংক একই থাকে, data.js-এ কিছু বদলাতে হবে না)
+
+এরপর:
+  - সাইট প্রতিবার খুললে Sheet-এর লেটেস্ট EMGS ফি দেখাবে, পাশে লেখা থাকবে "লাইভ আপডেট dd/mm/yyyy"।
+  - "emgs" ট্যাবের status কলামে দেখা যাবে কোন সাইট থেকে ফি পাওয়া গেল, কোনটা পাওয়া গেল না।
+  - কোনো ইউনিভার্সিটির সাইট ফি না দিলে (বা ভুল সংখ্যা আসলে) manual_rm কলামে নিজে সংখ্যা বসান — সেটাই সাইটে দেখাবে।
+  - APU, Nottingham, Taylor's, Lincoln, Nilai, UNITAR-এর ফি PDF/টেবিল/ছবিতে থাকে বলে অটো পড়া যায় না —
+    এগুলোর জন্য নতুন সারি যোগ করে manual_rm কলামে সংখ্যা দিন (id: apu / nottingham / taylors / lincoln / nilai / unitar)।
+  - City University আর UCSI-র সাইট মাঝে মাঝে অটো-পড়া আটকে দেয় — status-এ "সাইট খোলেনি" দেখালে manual_rm দিন।
+  - Sheet কাজ না করলে সাইট js/data.js-এর সংখ্যাই দেখাবে — কিছু ভাঙবে না।

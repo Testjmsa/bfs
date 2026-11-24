@@ -1,0 +1,132 @@
+BFS CRM — সেটআপ গাইড
+=====================
+
+এই ফোল্ডারটাই পুরো CRM। BFS website থেকে শুধু theme (রং, font, logo) নেওয়া হয়েছে;
+website-এর কোনো ফাইলের সাথে এর সংযোগ নেই।
+
+
+১) এখনই দেখতে চাইলে (DEMO MODE)
+-------------------------------
+index.html ফাইলে ডাবল-ক্লিক করুন। লগইন পেজে ID আর পাসওয়ার্ড দিন;
+নমুনা অ্যাকাউন্টগুলোর ID ও পাসওয়ার্ড DEMO-LOGINS.txt ফাইলে আছে।
+- সব ডেটা কাল্পনিক নমুনা, আর শুধু ওই ব্রাউজারেই থাকে।
+- অন্য কম্পিউটার থেকে দেখা যাবে না। তাই অফিসের আসল কাজে DEMO MODE ব্যবহার করবেন না।
+- নমুনা ডেটা মুছতে: Team & Settings → Backup & data → "Start empty"।
+
+
+২) অফিসের জন্য চালু করা (LIVE MODE) — প্রায় ৩০ মিনিট
+---------------------------------------------------
+ক. https://supabase.com-এ গিয়ে অফিসের ইমেইল দিয়ে অ্যাকাউন্ট খুলুন, তারপর "New project"।
+   Region: Singapore (বাংলাদেশ থেকে সবচেয়ে কাছে)। Database password কোথাও লিখে রাখুন।
+
+খ. বাম পাশে SQL Editor → New query → supabase/schema.sql ফাইলের পুরো লেখা paste করে RUN দিন।
+   "Success" দেখালে টেবিল আর নিরাপত্তার নিয়ম তৈরি হয়ে গেছে।
+
+গ. Authentication → Sign In / Providers → Email → "Confirm email" বন্ধ করুন।
+   (না হলে নতুন employee-র লগইন কাজ করবে না।)
+
+ঘ. Project Settings → API থেকে "Project URL" আর "anon public" key কপি করে
+   js/config.js ফাইলের supabaseUrl আর supabaseKey ঘরে বসান।
+
+ঙ. প্রথম অ্যাকাউন্ট (CEO / Admin): Supabase → Authentication → Users → "Add user"
+   দিয়ে নিজের ইমেইল আর পাসওয়ার্ড দিন। প্রথম অ্যাকাউন্টটাই নিজে থেকে Admin হয়।
+
+চ. সবার Login ID ও পাসওয়ার্ড: CRM-এ লগইন করুন → Team & Settings → "Excel template" নামান →
+   প্রতি লাইনে একজনের নাম ও Role লিখুন → "Add many from Excel" → "Create logins"।
+   শেষে "Print login sheet (PDF)" চাপুন; প্রত্যেকের ID আর পাসওয়ার্ডের স্লিপ প্রিন্ট হবে।
+   সবার প্রথম পাসওয়ার্ড config-এর defaultPassword; প্রথম login-এ নিজেরটা বসাতে হয়।
+   (কারও ইমেইল লাগে না: "rakib" লিখে লগইন করলেই হয়।)
+
+ছ. সবাই যেন ব্যবহার করতে পারে সেজন্য এই ফোল্ডারটা hosting-এ তুলুন
+   (Netlify, Cloudflare Pages, বা আপনার বর্তমান hosting-এ crm.আপনার-ডোমেইন)।
+
+
+৩) কে কী দেখতে পায়
+-------------------
+CRM-এর ভেতরে: Team & Settings → Role permissions-এ পুরো তালিকা আছে।
+সংক্ষেপে: Counsellor শুধু নিজের student দেখে; Finance শুধু Admin, Manager, Accounts দেখে;
+Passport/Bank Statement-এর মতো ডকুমেন্ট শুধু উপরের পদ আর assigned counsellor দেখে;
+Excel/PDF export শুধু Admin আর Manager; student delete শুধু Admin।
+কেউ চাকরি ছাড়লে: Team → তার নাম → "Access enabled" টিক তুলে দিন।
+
+
+৪) খরচ
+-------
+Supabase Free plan: 500 MB database, 1 GB ফাইল। ১ GB মানে মোটামুটি ১,০০০টা ডকুমেন্ট।
+অফিসের ডকুমেন্ট বাড়লে Pro plan লাগবে (মাসে $25: 100 GB ফাইল + প্রতিদিনের automatic backup)।
+Free plan-এ ৭ দিন কেউ ব্যবহার না করলে project pause হয়ে যায়।
+
+
+৫) কর্মীদের জন্য নির্দেশিকা
+---------------------------
+CRM-এর বাম মেনুর "My Guide (বাংলা)"-তে প্রত্যেকে শুধু নিজের পদের গাইড দেখে
+(Counsellor শুধু Counsellor-এর, Teacher শুধু Teacher-এর)।
+Admin ওই পেজের উপরে পদ বেছে যেকোনো পদের গাইড দেখতে ও "Print / PDF" দিয়ে
+BFS theme-এর PDF বানাতে পারেন।
+
+প্রথম পাসওয়ার্ড: js/config.js-এর defaultPassword ঘরে যা আছে সেটাই সবার প্রথম পাসওয়ার্ড।
+প্রথম login-এ CRM প্রত্যেককে নিজের পাসওয়ার্ড বসাতে বাধ্য করে।
+
+
+৬) Student portal
+-----------------
+ঠিকানা: আপনার-সাইট/student.html (CRM-এর login পেজ থেকে আলাদা)।
+Counsellor student-এর প্রোফাইলে "Give portal access" চাপলে ৬ সংখ্যার PIN তৈরি হয়;
+"Print access slip" দিয়ে student-কে ID (যেমন BFS1001) আর PIN দিন।
+Student নিজের status, আবেদন, ভিসার তারিখ, বাকি কাগজ, বাকি টাকা আর IELTS ক্লাস (Zoom লিংক, homework, উপস্থিতি, ফলাফল) দেখে,
+আর নিজেই কাগজের ফাইল দিতে পারে (দেওয়া ফাইল নিজে আর খুলতে পারে না, শুধু staff পারে);
+কোনো ফাইল, নোট বা অন্য কারও তথ্য দেখে না। ৫ বার ভুল PIN দিলে ১৫ মিনিট বন্ধ থাকে।
+ফাইলের সর্বোচ্চ সাইজ: js/config.js → maxUploadMB (এখন ১৮০ MB)।
+  সাবধান: Supabase Free plan-এ একটা ফাইল ৫০ MB-এর বেশি হতে পারে না। ১৮০ MB চালাতে Pro plan নিয়ে
+  Supabase → Storage → Settings → "Upload file size limit" 180 MB করুন।
+EMGS কার্ড (মালয়েশিয়া): student-এর EMGS ফি পুরো জমা হলে (Finance-এ Fee type "EMGS Fee", অথবা
+  Visa ফাইলে "EMGS fee paid" টিক) আর পাসপোর্ট নাম্বার থাকলে portal-এ EMGS অগ্রগতি দেখায়।
+  Nationality সবসময় Bangladesh। পাসপোর্ট নাম্বার CRM-এ না থাকলে student নিজে portal-এ দিতে পারে।
+  % আসে EMGS-এর সাইট থেকে নিজে (ধাপ ৮ দেখুন); student "EMGS-এ নিজে দেখুন" চাপলে পাসপোর্ট নাম্বার কপি হয়ে
+  EMGS-এর পেজ খোলে। অফিস চাইলে কোনো student-এর % লুকিয়ে রাখতে পারে (EMGS progress → Student sees)।
+
+
+৭) Website-এর সাথে সংযোগ
+------------------------
+- website-এর প্রতিটা পেজ এখন "CRM Site/js/config.js" আর "CRM Site/js/weblink.js" ব্যবহার করে।
+  তাই hosting-এ তোলার সময় পুরো bfs-website ফোল্ডার (ভেতরের "CRM Site" সহ) একসাথে তুলুন।
+- website-এ কেউ নাম-নাম্বার দিলে CRM-এ lead তৈরি হয়; CRM-এর Student ID-ই (যেমন BFS1001) website-এ তার ID।
+  একই নাম্বার আবার এলে নতুন রেকর্ড হয় না।
+- website-এর Dashboard পেজে "আমার ফাইলের অবস্থা দেখুন" বোতাম student portal খোলে।
+- Popup হোম পেজে স্ক্রল করলে বা কিছুতে ক্লিক করলে আসে, অন্য পেজে সাথে সাথে। কোণার ✕ দিয়ে বন্ধ করলে
+  যেকোনো পেজ খোলা আর স্ক্রল করা যায়, কিন্তু Quiz, Eligibility, খরচ হিসাব, বুকিং বা অন্য কোনো কাজ করতে গেলে
+  popup আবার আসে (নাম আর নাম্বার না দেওয়া পর্যন্ত)। আগে থেকে অ্যাকাউন্ট থাকলে popup-এর "Sign in" লিংক দিয়ে Dashboard-এ গিয়ে নাম্বার + PIN দিয়ে ঢোকা যায়।
+- PIN ভুলে গেলে student WhatsApp করে; counsellor CRM-এ student-এর প্রোফাইল → Student portal → "New PIN" দিয়ে নতুন PIN দেন।
+- website-এ যেখানেই প্রোফাইল তৈরি হোক (popup, Dashboard login, অফিস ভিজিট বুকিং), CRM-এ একই ID-তে lead হয়।
+- website-এর আগের ফাইলগুলোর কপি ".backup-20261114" ফোল্ডারে আছে।
+- CRM-এ ঢোকার ঠিকানা: আপনার-সাইট/CRM Site/index.html (শুধু staff)।
+
+
+৮) University, Programme, EMGS ফি আর EMGS অগ্রগতি (%)
+----------------------------------------------------
+- CRM → "Universities & EMGS": university যোগ (আগে দেশ বাছতে হয়; নতুন দেশ "Add country"), programme যোগ
+  ("Programmes" বোতাম), EMGS ফি বদল (ফি-র পাশের ✏️)। মালয়েশিয়ার যা এখানে থাকে, website-ও তাই দেখায়।
+  অফিসের বসানো ফি সবার উপরে থাকে; প্রতিদিনের অটো আপডেট সেটা বদলায় না।
+- CRM বন্ধ থাকলে বা সংযোগ না পেলে website নিজের তালিকা (js/data.js) আর শেষ জমা কপি দিয়ে স্বাভাবিকভাবে চলে —
+  CRM-এর কারণে website কখনো বন্ধ হয় না।
+- CRM → "EMGS progress": মালয়েশিয়ার সব student-এর EMGS %; কার ফি জমা, কার শুরু হয়নি, কার % ওঠেনি।
+  % আসে EMGS-এর "Track My Application" পেজ থেকে (পাসপোর্ট নাম্বার + Bangladesh) — CRM খোলা থাকলে ৬ ঘণ্টায় একবার
+  নিজে থেকে, আর "Check all on EMGS" চাপলে সাথে সাথে। DEMO MODE-এ নিজে থেকে চেক হয় না।
+  "Student sees" সুইচ (Admin/Manager/Operation/Senior): বন্ধ করলে সেই student portal আর website-এ % দেখে না।
+
+  ⚠️ এই দুটো অটো কাজ (EMGS % আর EMGS ফি) চালু করতে একবার Google Script নতুন করে বসাতে হবে:
+     Google Sheet → Extensions → Apps Script → google-sheet-script.txt-এর "কোড শুরু" থেকে "কোড শেষ" পর্যন্ত
+     পুরো কোড paste → Save → উপরে "setup" বেছে ▶ Run (অনুমতি চাইলে Allow) →
+     Deploy → Manage deployments → ✏️ → Version: "New version" → Deploy। (URL একই থাকে।)
+     পরীক্ষা: "testEmgs"-এ একটা আসল পাসপোর্ট নাম্বার বসিয়ে ▶ Run → নিচে Execution log-এ % দেখাবে।
+     আসল পাসপোর্ট দিয়ে এটা এখনো পরীক্ষা হয়নি — % ভুল এলে log-এর লেখাটা পাঠান, মিলিয়ে ঠিক করা যাবে।
+
+
+৯) এই version-এ যা নেই
+----------------------
+- Email / WhatsApp-এ notification (এখন reminder শুধু CRM-এর ভেতরে আর browser alert-এ)।
+  এর জন্য WhatsApp Business API আর একটা email service-এর account লাগবে।
+- Facebook Lead Ads থেকে সরাসরি লিড (এখন Meta থেকে Excel নামিয়ে "Import leads" দিয়ে তুলতে হয়)।
+  এর জন্য Meta-তে app বানিয়ে approval নিতে হয়।
+- Salary / payroll, employee attendance
+নতুন ডেটা প্রতি ২ মিনিটে নিজে থেকে আসে; সাথে সাথে দেখতে উপরের "↻ Refresh" চাপুন।

@@ -1,0 +1,18 @@
+BFS CRM — DEMO mode-এর login (শুধু পরীক্ষার জন্য)
+==================================================
+নমুনা অ্যাকাউন্ট। সবার পাসওয়ার্ড js/config.js-এর defaultPassword ঘরে যেটা আছে সেটাই।
+নতুন কর্মী যোগ করলে তারও প্রথম পাসওয়ার্ড ওটাই হয়, আর প্রথম login-এ CRM তাকে
+নিজের পাসওয়ার্ড বসাতে বাধ্য করে।
+
+Login ID      পদ
+---------     ---------------------
+admin         CEO / Admin
+manager       Manager
+operation     Operation Manager
+senior        Senior Counsellor
+rakib         Student Counsellor
+mim           Student Counsellor
+moderator     Moderator
+teacher       IELTS Teacher
+accounts      Accounts
+editor        Staff (Editor / Meta)

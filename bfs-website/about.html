@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About Us — Bright Future by Sam</title>
+<meta name="description" content="Bright Future by Sam × IELTS Centre Bangladesh — টিম, সার্ভিস ও প্রশ্ন-উত্তর।">
+<link rel="icon" href="images/bfs-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=28">
+</head>
+<body>
+<header id="site-header"></header>
+<main>
+<section class="page-hero"><div class="wrap">
+  <span class="kicker" data-i18n="a.K"></span><h1 data-i18n="a.T"></h1><p class="sub" data-i18n="a.S"></p>
+</div></section>
+<section class="sec" style="padding-top:30px"><div class="wrap">
+  <div class="vm-grid">
+    <div class="vm vm-v reveal"><span class="vm-ic" id="icV"></span><span class="kicker" data-i18n="a.visionK"></span><h2 data-i18n="a.visionT"></h2><p id="vision"></p></div>
+    <div class="vm vm-m reveal d1"><span class="vm-ic" id="icM"></span><span class="kicker" data-i18n="a.missionK"></span><h2 data-i18n="a.missionT"></h2><ul id="mission"></ul></div>
+  </div>
+</div></section>
+<section class="sec sec-tint"><div class="wrap">
+  <div class="head center"><span class="kicker" data-i18n="a.valK"></span><h2 class="h2" data-i18n="a.valT"></h2></div>
+  <div class="vals" id="vals"></div>
+</div></section>
+<section class="sec"><div class="wrap">
+  <div class="why-us reveal"><div><span class="kicker" data-i18n="a.whyK"></span><h2 class="h2" data-i18n="a.whyT"></h2><p class="sub" data-i18n="a.whyS"></p></div><ul id="whyUs"></ul></div>
+</div></section>
+<section class="sec sec-tint"><div class="wrap">
+  <div class="head center"><h2 class="h2" data-i18n="a.teamT"></h2></div>
+  <div class="team" id="team"></div>
+</div></section>
+<section class="sec"><div class="wrap">
+  <div class="head center"><span class="kicker" data-i18n="a.svcK"></span><h2 class="h2" data-i18n="a.svcT"></h2></div>
+  <div class="svc-icons" id="svc"></div>
+</div></section>
+<section class="sec sec-tint"><div class="wrap narrow">
+  <div class="head center"><span class="kicker" data-i18n="a.faqK"></span><h2 class="h2" data-i18n="a.faqT"></h2></div>
+  <div id="faq"></div>
+</div></section>
+<section class="cta-band"><div class="wrap"><div class="cta-in">
+  <div><h2 data-i18n="cta.t"></h2><p data-i18n="cta.s"></p></div>
+  <a href="visit.html" class="btn btn-gold btn-lg" id="ctaBand"></a>
+</div></div></section>
+</main>
+<footer id="site-footer"></footer>
+<script src="js/firebase-config.js?v=24"></script>
+<script src="js/i18n.js?v=28"></script>
+<script src="js/data.js?v=28"></script>
+<script src="CRM Site/js/config.js?v=31"></script>
+<script src="CRM Site/js/catalog.js?v=28"></script>
+<script src="CRM Site/js/weblink.js?v=6"></script>
+<script src="js/common.js?v=28"></script>
+<script src="js/sketch.js?v=28"></script>
+<script>
+function renderAbout() {
+  $("#team").innerHTML = TEAM.map((m) => `<div class="tm tilt reveal"><div class="tm-ph"><img src="${m.photo}" alt="${esc(m.name)}" loading="lazy"></div><div class="tm-b"><b>${esc(m.name)}</b><span>${esc(L(m.role))}</span></div></div>`).join("");
+  $("#icV").innerHTML = icon("target"); $("#icM").innerHTML = icon("spark");
+  $("#vision").textContent = L(ABOUT.vision);
+  $("#mission").innerHTML = ABOUT.mission.map((m) => `<li>${icon("check")}<span>${esc(L(m))}</span></li>`).join("");
+  $("#vals").innerHTML = ABOUT.values.map((v, i) => `<div class="val reveal d${i % 3}"><span class="val-ic">${icon(v.icon)}</span><b>${esc(L(v.t))}</b><p>${esc(L(v.d))}</p></div>`).join("");
+  $("#whyUs").innerHTML = ABOUT.why.map((w) => `<li>${icon("check")}<span>${esc(L(w))}</span></li>`).join("");
+  $("#svc").innerHTML = SERVICES.map((s, i) => `<div class="svc-ic reveal d${i % 3}"><span class="svc-circle">${icon(s.icon)}</span><b>${esc(L(s.t))}</b></div>`).join("");
+  $("#faq").innerHTML = FAQ.map((f) => `<details class="faq"><summary>${esc(L(f.q))}</summary><p>${esc(L(f.a))}</p></details>`).join("");
+  $("#ctaBand").innerHTML = icon("calendar") + `<span>${t("cta.btn")}</span>`;
+  reveal();
+}
+document.addEventListener("DOMContentLoaded", renderAbout);
+document.addEventListener("bfs:lang", renderAbout);
+</script>
+</body>
+</html>

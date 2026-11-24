@@ -1,0 +1,96 @@
+ফি আপডেট — অফিশিয়াল ইউনিভার্সিটি ওয়েবসাইট থেকে (২৮ অক্টোবর ২০২৬)
+=====================================================================
+ফাইল: js/data.js → WEB_PROGRAMS, WEB_SRC (নতুন), UNI_SITE
+সব ফি = পুরো কোর্সের মোট (RM), ওয়েবসাইটের নিয়ম অনুযায়ী।
+
+যা বদলানো হয়েছে (৭টা ইউনিভার্সিটি)
+-------------------------------------
+APU — অফিশিয়াল ২০২৬ ফি-গাইড (৬% SST ও RM ৫,০০০ রেজিস্ট্রেশন আলাদা)
+  BSc Computer Science (Cyber Security)           104,600          → 108,500
+  BSc CS / Software Eng / AI                       98,800–119,200   → 108,500
+  Business / Accounting & Finance                  98,800–119,200   → 108,500
+  + নতুন: Diploma in ICT / Business / Accounting (২ বছর)            54,200
+  + নতুন: Mechatronic / Mechanical / Computer / Electrical Eng (৪ বছর) 137,200
+  সূত্র: https://publicwebsite-media.apu.edu.my/assets/2026-02/e2026Jan-APU%20Fee%20Guide_Int%20UG_3.8.pdf
+
+University of Cyberjaya — অফিশিয়াল ইন্টারন্যাশনাল ফি (রেজিস্ট্রেশন, অ্যাডমিন ও EMGS সহ মোট)
+  Foundation in Science                            18,700           → 28,000
+  MBBS 434,300 ও Pharmacy 140,600 — অফিশিয়াল ফি-র সাথে মিলেছে, বদলায়নি
+  সূত্র: https://cyberjaya.edu.my/admission/financial-aid-options/fees-structure-international
+
+University of Nottingham Malaysia — জানুয়ারি ২০২৭ থেকে প্রযোজ্য ফি (৬% SST আলাদা)
+  BEng Chemical/Civil/E&E (৩ বছর) 141,300–142,500 → MEng (৪ বছর) 276,000  (RM ৬৯,০০০/বছর; সাইটে এখন শুধু MEng আছে)
+  Finance, Accounting & Management                 111,000          → 177,000  (RM ৫৯,০০০/বছর)
+  Economics                                        139,500          → 171,000  (RM ৫৭,০০০/বছর)
+  + নতুন: BSc Computer Science                                       177,000  (RM ৫৯,০০০/বছর)
+  সূত্র: https://www.nottingham.edu.my/study/undergraduate-courses/tuition-fees.aspx
+
+UOW Malaysia — অফিশিয়াল আনুমানিক ফি (EMGS ও SST আলাদা)
+  BA International Business Management 66,756 → Bachelor of Business (Hons) 101,310 (Single) – 115,110 (Dual)
+  (সাইটে আলাদা "International Business Management" ডিগ্রি নেই — এটা Bachelor of Business-এর একটা সাবজেক্ট)
+  সূত্র: https://www.uow.edu.my/programme/bachelor-of-business-hons/
+
+Nilai University — অফিশিয়াল ২০২৩ ফি-শিট (এর চেয়ে নতুন শিট সাইটে নেই)
+  Diploma in Nursing                               40,000–46,000    → 45,732
+  BSc (Hons) Nursing                               72,760–77,734    → 72,884
+  সূত্র: https://www.nilai.edu.my/sites/default/files/e-brochure/NU_FEE_INT_%202709203%20(2).pdf
+
+UniKL — অফিশিয়াল প্রোগ্রাম পেজ (ভিসা ফি ও ৬% SST আলাদা)
+  Eng Tech (Manufacturing / Mechanical) 60,000 → Mechanical Eng Tech (Machine Manufacturing) 78,000
+  Aircraft Eng Tech (Avionics)                     108,000          → 145,365
+  সূত্র: https://www.unikl.edu.my/programme/bachelor-of-aircraft-engineering-technology-hons-in-avionics/
+         https://www.unikl.edu.my/programme/bachelor-of-mechanical-engineering-technology-machine-manufacturing-with-honours/
+
+BAC — অফিশিয়াল ফি
+  LLB (Hons) University of London 3+0              87,232           → 63,000
+  (RM ২০,০০০/বছর টিউশন + RM ১,০০০/বছর রিসোর্স × ৩ বছর। University of London-এর ফি
+   — রেজিস্ট্রেশন £৬৩৮, প্রতি বছর মডিউল £৭৯২ + পরীক্ষা £৯৬৮ + অনলাইন পরীক্ষা £৪৪, মোট প্রায় £৬,১০০ — পাউন্ডে আলাদা দিতে হয়;
+   প্রোগ্রামের নামেই লেখা আছে)
+  সূত্র: https://www.bac.edu.my/courses/llb-hons/
+
+যা বদলানো হয়নি (অফিশিয়াল সাইটে ইন্টারন্যাশনাল ফি প্রকাশ করা নেই)
+------------------------------------------------------------------
+MAHSA, UNITAR, UniRazak, LSBF, KLUST, Genovasi, ICMS
+  → আগের আনুমানিক ফি-ই আছে, পপআপে "আনুমানিক" নোটও আগের মতো।
+  (UNITAR সাইটে শুধু লোকাল ফি আর অনলাইন MBA-র ইন্টারন্যাশনাল ফি আছে, ক্যাম্পাস MBA-র নেই।)
+  এদের ফি-শিট ইমেইলে চেয়ে নিলে একইভাবে আপডেট করা যাবে।
+
+অন্যান্য
+--------
+- আপডেট হওয়া ৭টা ইউনিভার্সিটির পপআপে "ফি-র সূত্র" এখন অফিশিয়াল সূত্রের নাম দেখায় (আগে "শিক্ষা-পোর্টাল থেকে আনুমানিক" লেখা ছিল)।
+- ওই ৭টার ছোট্ট "°" লিংক এখন হোমপেজে না গিয়ে সরাসরি ফি-পেজ/PDF খোলে।
+- html ফাইলে ?v=11 → ?v=12।
+
+=====================================================================
+EMGS / ভিসা ফি — অফিশিয়াল ইউনিভার্সিটি ওয়েবসাইট থেকে (২৮ অক্টোবর ২০২৬)
+=====================================================================
+ফাইল: js/data.js → const EMGS = { ... }  (প্রতিটার পাশে url = যে পেজ থেকে নেওয়া)
+ফি বদলালে: url-এ গিয়ে নতুন সংখ্যা দেখে rm: বদলে দিন। সাইটে EMGS লেখার পাশের ছোট্ট "°" চাপলে সেই পেজ খুলবে।
+
+ইউনিভার্সিটি   আগে        এখন       সূত্র / কী ধরা আছে
+SEGi           ৪,০৬০      ৩,১৫০     ওয়েবসাইট: ভর্তি ও ভিসা আবেদন ফি — প্রোগ্রামের মোট ফি-তে আগেই ধরা, তাই আর যোগ হয় না
+City Univ.     ২,৭৫০      ৩,৮১০     ওয়েবসাইট: আবেদন ও EMGS ভিসা ফি (আনুমানিক)
+Lincoln        ৩,৫০০      ৩,৫০০     আপনার ফি-শিট রাখা হয়েছে (ওয়েবসাইটে USD 800 — প্রায় একই)
+ALFA           ৩,৫০০      ৩,৫০০     আপনার ফি-শিট রাখা হয়েছে (ওয়েবসাইটে ভিসা ফি নেই)
+INTI           ২,৫০০*     ২,৮৪৭     প্রসেসিং, মেডিকেল ইন্স্যুরেন্স, স্ক্রিনিং ও ইমিগ্রেশন সহ
+UCSI           ২,৫০০*     ৩,১০০     আবেদন ফি (EMGS সহ)
+Taylor's       ২,৫০০*     ১,৬৫৭     EMGS ভিসা আবেদন ফি (৩ বছরের কোর্স, ২০২৪ ফি-শিডিউল)
+APU            ২,৫০০*     ৩,৪০০     আবেদন ও EMGS প্রসেসিং (ভিসা পাওয়ার পর আরও RM ২,০০০)
+Cyberjaya      ২,৫০০*     ২,৮০০     প্রোগ্রামের মোট ফি-তে আগেই ধরা — আগে দুইবার যোগ হচ্ছিল, এখন ঠিক
+Nottingham     ২,৫০০*     ৩,৯০০     প্রসেসিং ফি (এর বাইরে RM ২,০০০ ফেরতযোগ্য ডিপোজিট)
+UOW            ২,৫০০*     ৩,২০০     EMGS ফি
+UNITAR         ২,৫০০*     ২,৭০০     আবেদন ফি (EMGS সহ)
+Nilai          ২,৫০০*     ১,৩১০     ভিসা আবেদন ১,০৬০ + হেলথ স্ক্রিনিং ২৫০ (ইন্স্যুরেন্স আলাদা)
+BAC            ২,৫০০*     ৪,৬০০     স্টুডেন্ট ভিসা পেমেন্ট
+LSBF           ২,৫০০*     ৩,০০০     আবেদন ও ভিসা প্রসেসিং
+KLUST          ২,৫০০*     ৩,১০০     ইন্টারন্যাশনাল প্রসেসিং ফি
+Genovasi       ২,৫০০*     ৩,১৫০     আবেদন ও EMGS ভিসা ফি (আনুমানিক)
+(* = আগে আনুমানিক ধরা ছিল)
+
+বদলানো হয়নি (ওয়েবসাইটে পরিষ্কার সংখ্যা নেই):
+  UniKL (আগের মতো RM ৩,৩০০ — সাইটে শুধু ভিসা শুরুর RM ২,২০০ প্রাথমিক ফি, EMGS ইনভয়েস আলাদা)
+  Universiti Malaya, MAHSA, UniRazak, UCMI, Kings, ICMS → আনুমানিক RM ২,৫০০ ("আনুমানিক" লেখা থাকে)
+
+খরচের হিসাবে পরিবর্তন: যাদের প্রোগ্রাম-ফি-তে ভিসা ফি আগেই ধরা (SEGi, Cyberjaya), তাদের EMGS এখন দেখায়
+"প্রোগ্রামের ফি-তে ধরা আছে" লিখে, কিন্তু মোট খরচে আবার যোগ হয় না (পপআপ ও খরচ ক্যালকুলেটর দুটোতেই)।
+html ফাইলে ?v=12 → ?v=13।

@@ -1,0 +1,104 @@
+BFS CRM — এ পর্যন্ত যা করা হয়েছে (১৪ নভেম্বর ২০২৬)
+====================================================
+
+কোথায় কী আছে
+-------------
+bfs-website/                 → আপনার website (আগের মতোই)
+bfs-website/CRM Site/        → নতুন CRM
+  index.html                 → staff-দের CRM (login: ID + পাসওয়ার্ড)
+  student.html               → student portal (Student ID + PIN)
+  js/config.js               → সেটিং: Supabase URL/key, defaultPassword
+  supabase/schema.sql        → database (Supabase-এ একবার চালাতে হবে)
+  SETUP-GUIDE.txt            → চালু করার ধাপ
+  DEMO-LOGINS.txt            → নমুনা login ID
+bfs-website/.backup-20261114 → website-এর আগের ফাইলের কপি
+
+CRM-এ যা আছে
+------------
+1. Students & Leads: তালিকা, filter, search, duplicate নাম্বার ধরা, Excel থেকে import, ছবি
+2. Student প্রোফাইল: সব তথ্য + Timeline (call, counselling, status বদল — কে, কখন)
+3. Applications & Visa: দেশ ও status অনুযায়ী ঘর বদলায়
+4. Documents: ৬টা জরুরি কাগজ + "+" দিয়ে বাড়তি; version history; verify
+5. IELTS Centre: batch, ভর্তি, attendance, result (IELTS/PTE/Duolingo/Spoken আলাদা স্কোর)
+6. Tasks, Finance (invoice, payment, receipt, due, expense), Reminders
+7. Reports: ১১টা, Excel ও BFS theme-এর PDF
+8. Team: ৯টা পদ, Excel থেকে সবার login, login sheet প্রিন্ট, Admin permission বদলাতে পারেন
+9. My Guide: প্রত্যেকে শুধু নিজের পদের বাংলা গাইড দেখে
+10. Student portal: student নিজের status, আবেদন, ভিসা, বাকি কাগজ ও টাকা live দেখে;
+    নিজেই কাগজের ফাইল (PDF/JPG/PNG) দিতে পারে
+11. IELTS student portal-এ দেখে: ক্লাসের দিন-সময়, Zoom লিংক ("অনলাইন ক্লাসে যোগ দিন"),
+    homework/নোটিশ, নিজের উপস্থিতি আর টেস্টের ফলাফল। টিচার CRM-এ batch → "Class link & homework" থেকে দেন
+
+Website-এ যা বদলেছে
+-------------------
+1. Popup প্রথমেই আসে না; হোম পেজে স্ক্রল করলে বা কিছুতে ক্লিক করলে আসে
+2. Popup ছোট লেখায়; কোণার ✕ দিয়ে বন্ধ করলে শুধু পেজ ঘোরা ও স্ক্রল করা যায় — Quiz, Eligibility বা অন্য কাজ করতে গেলে আবার আসে
+3. popup, Dashboard login বা বুকিং — যেখানেই প্রোফাইল হোক, CRM-এ lead হয়; website-এর ID = CRM-এর ID (BFS1001)
+4. Dashboard পেজে "আমার ফাইলের অবস্থা দেখুন" বোতাম
+5. Dashboard-এ Sign in (মোবাইল নাম্বার বা Student ID + PIN) আর Sign up আলাদা; "PIN ভুলে গেছেন?" চাপলে অফিসে WhatsApp
+6. লম্বা তালিকায় (ইউনিভার্সিটি, প্রোগ্রাম/সাবজেক্ট, লেভেল) লিখে খোঁজার ঘর
+
+নতুন (১৪ নভেম্বর, দ্বিতীয় দফা)
+------------------------------
+1. CRM-এ "Universities & EMGS" পেজ: সব university, দেশ, মালয়েশিয়ার EMGS ফি (website থেকে লাইভ); Add university / Add country
+2. ফর্মে দেশ বাছলে সেই দেশের university-র তালিকা; না থাকলে "Other" লিখলে তালিকায় যোগ হয়
+3. Students: শুরুতে "আমার students"; "সব students" দেখা যায় কিন্তু শুধু দেখা — বদলানো যায় শুধু নিজের assign করা student
+4. একজন student একাধিক কর্মীকে assign করা যায় (Edit → Also assigned to)
+5. Student portal-এ EMGS কার্ড: EMGS ফি জমা + পাসপোর্ট নাম্বার থাকলে; Nationality Bangladesh; পাসপোর্ট student নিজেও দিতে পারে
+6. ফাইল সর্বোচ্চ ১৮০ MB (Supabase Pro plan লাগবে, Free-তে ৫০ MB)
+7. English homework/নোটিশ: পুরো batch, সব batch, অথবা নির্দিষ্ট এক বা কয়েকজন student-কে
+8. প্রতিটা পেজের উপরে "📘 ব্যবহার নির্দেশিকা" (ভাঁজ করে রাখা যায়), student portal-এও
+9. Website Dashboard-এ "আমার ফাইলের অবস্থা দেখুন" বড় হাইলাইট বোতাম (ID ও PIN সহ)
+10. EMGS ফি লাইভ আপডেটের Google Script পুরোনো version-এ চলছে — SETUP-GUIDE ধাপ ৮ দেখে নতুন করে Deploy করুন
+
+নতুন (১৪ নভেম্বর, তৃতীয় দফা)
+-----------------------------
+1. CRM-এ "EMGS progress" পেজ: যারা EMGS ফি দিয়েছে তাদের সবার %, কার শুরু হয়নি / % ওঠেনি, Excel
+2. EMGS % নিজে আসে EMGS-এর সাইট থেকে (পাসপোর্ট + Bangladesh) — Google Script নতুন করে Deploy করার পর চালু হবে
+3. "Student sees" সুইচ: Manager চাইলে কোনো student-এর EMGS % লুকাতে পারেন; তখন portal-এ অন্য লেখা দেখায়
+4. Website Dashboard-এ student-এর EMGS %
+5. সব university-র EMGS ফি CRM থেকে বদলানো যায় (✏️); website সেটাই দেখায়। INTI এখন RM 3,600
+6. CRM থেকে programme, university, দেশ যোগ; মালয়েশিয়ার গুলো website-এ দেখায়
+7. CRM না চললেও website নিজের তালিকা দিয়ে চলে
+
+যা এখনো বাকি (আপনার কাজ)
+-------------------------
+1. Supabase-এ নিজে sign in / অ্যাকাউন্ট খোলা (SETUP-GUIDE.txt, ধাপ ২)
+2. কর্মীদের নাম ও পদ Excel template-এ লেখা
+3. পুরো bfs-website ফোল্ডার hosting-এ তোলা
+4. Google Script নতুন করে Deploy করা (SETUP-GUIDE ধাপ ৮) — EMGS % আর ফি-র অটো আপডেটের জন্য
+Supabase না জোড়া পর্যন্ত সব ডেটা শুধু এক ব্রাউজারে থাকে (DEMO MODE),
+আর Supabase-এর অংশ এখনো আসল project-এ পরীক্ষা হয়নি।
+
+নতুন (১৬ নভেম্বর ২০২৬)
+----------------------
+Website:
+1. "অনলাইন আবেদন" সরানো হয়েছে (মেনু থেকে, পেজও; কপি আছে .backup-20261116-এ)
+2. মেনুর "ইউনিভার্সিটি ও ফি" এখন শুধু "ইউনিভার্সিটি"
+3. ইউনিভার্সিটির বিস্তারিত এখন শুধু: নাম, লোগো, লোকেশন, QS র‍্যাংকিং ২০২৭, Credit Transfer, কয়টা প্রোগ্রাম
+   (র‍্যাংকিং js/data.js-এর QS_RANK-এ — নতুন র‍্যাংকিং এলে সেখানে বদলান)
+4. আমাদের সম্পর্কে: Adlina-র ছবি বাদ; ভিশন, মিশন, মূল্যবোধ, "কেন আমরা" যোগ (লেখা js/data.js-এর ABOUT-এ)
+CRM:
+5. Website বা অফিস বুকিং থেকে আসা নতুন lead পালা করে counsellor পায় — যে সবচেয়ে বেশি সময় lead পায়নি সে আগে।
+   ৫০ জন lead আর ১০ জন counsellor হলে সবাই ৫ জন করে; lead কম হলে পরের দিন যারা পায়নি তারা আগে পায়।
+   কোন পদ lead পাবে: Team & Settings → Role permissions → "Gets new website leads automatically" (শুরুতে Counsellor + Senior)
+6. Dashboard-এ "My new leads": নিজের নতুন lead, Call / WhatsApp / Open বোতাম
+7. Dashboard-এ সময়: Today, Yesterday, Pick a day (যেকোনো একদিন), 7 / 30 / 90 দিন, 12 মাস, সব;
+   একদিন বাছলে "Day overview" — সেদিনের lead, কল/নোট, status বদল, আবেদন, কাজ, টাকা, কে কয়টা lead পেল
+8. নতুন পদ "Developer (Website / CRM)"; Admin নিজে নতুন পদ (category) যোগ/বাদ করতে পারেন আর যেকোনো অনুমতি দিতে পারেন
+   নতুন অনুমতি: lead পাওয়া, Team (কর্মী যোগ/পাসওয়ার্ড — Admin-এর অ্যাকাউন্ট ছাড়া), University/EMGS তালিকা বদল, EMGS দেখানো/লুকানো, student মোছা
+9. Student portal: counsellor উপরে (Call/WhatsApp), কাগজ/টাকা/আবেদন/EMGS-এর ছোট হিসাব, "এখন আপনার করণীয়" তালিকা
+supabase/schema.sql-ও এসব অনুযায়ী আপডেট করা (এখনো আসল Supabase-এ চালানো হয়নি)।
+
+===== ১৬ নভেম্বর ২০২৬ (পরে) =====
+• নতুন বিভাগ (Department) যোগ/বাদ — Team & Settings → Team → "বিভাগ" ঘর (শুধু Admin)
+• একজন মানুষকে আলাদা বিশেষ অনুমতি — Edit employee → "Special access — only for this person" (শুধু Admin দিতে পারেন; একই বিভাগের অন্যরা পায় না)
+• ওয়েবসাইট আর CRM আলাদা ঠিকানায় চালানোর ব্যবস্থা:
+  - config.js-এ নতুন দুটো ঘর: websiteUrl আর crmUrl
+  - bfs-website/আপলোড-ফোল্ডার-বানাও.command ডাবল-ক্লিক → ~/Downloads/BFS-UPLOAD/website আর /crm তৈরি হয়
+  - ব্যক্তিগত ফাইল (PDF, .txt, ব্যাকআপ, supabase ফোল্ডার) এতে যায় না
+• Supabase LIVE চালু (১৬ নভেম্বর): প্রজেক্ট "BFS CRM", Singapore। schema.sql চালানো হয়েছে
+  (student_access/doc_access-এ sid নামের গোলমাল ঠিক করা হয়েছে), Confirm email বন্ধ, config.js-এ URL + anon key বসানো।
+  প্রথম Admin: Supabase-এ তৈরি অ্যাকাউন্ট। ওয়েবসাইট থেকে লাইভ লিড টেস্ট সফল, টেস্ট লিড মুছে ID আবার BFS1001 থেকে শুরু।
+• Netlify-তে লাইভ (১৬ নভেম্বর): ওয়েবসাইট https://bfsem.netlify.app , CRM https://bfsam-crm.netlify.app (Netlify অ্যাকাউন্টে "bfsem" আর "bfsam-crm" প্রজেক্ট)
+  আপডেট: আপলোড-ফোল্ডার-বানাও.command চালান → BFS-UPLOAD/website আর /crm ফোল্ডার (বা zip) Netlify → প্রজেক্ট → Deploys-এ টেনে ছাড়ুন।

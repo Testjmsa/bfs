@@ -1,0 +1,50 @@
+{
+  // BFS — VS Code-এ খুলতে এই ফাইলে ডাবল-ক্লিক করুন
+  "folders": [
+    { "name": "🌐 Website (bfsem.netlify.app)", "path": "." },
+    { "name": "🗂 CRM + Student Portal (bfsam-crm.netlify.app)", "path": "CRM Site" }
+  ],
+  "settings": {
+    // বাম পাশের তালিকায় যা দেখাবে না (ব্যাকআপ, আপলোডের zip, ব্যক্তিগত ফাইল, CRM — CRM আলাদা ফোল্ডারে আছে)
+    "files.exclude": {
+      "CRM Site": true,
+      ".backup-*": true,
+      ".deploy": true,
+      ".claude": true,
+      "**/.DS_Store": true,
+      "*.pdf": true,
+      "*.log": true
+    },
+    "search.exclude": { ".backup-*": true, ".deploy": true },
+    "files.encoding": "utf8",
+    "files.eol": "\n",
+    "editor.wordWrap": "on",
+    "editor.tabSize": 2,
+    "editor.formatOnSave": false,
+    "html.format.enable": false,
+    "workbench.editorAssociations": { "*.md": "vscode.markdown.preview.editor" }
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "▶ Website + CRM লোকালি চালু করো",
+        "type": "shell",
+        "command": "\"${workspaceFolder:🌐 Website (bfsem.netlify.app)}/Start-Localhost.command\"",
+        "isBackground": true,
+        "problemMatcher": [],
+        "presentation": { "reveal": "always", "panel": "dedicated" }
+      },
+      {
+        "label": "📦 আপলোডের ফোল্ডার বানাও (Netlify-র জন্য)",
+        "type": "shell",
+        "command": "\"${workspaceFolder:🌐 Website (bfsem.netlify.app)}/আপলোড-ফোল্ডার-বানাও.command\"",
+        "problemMatcher": [],
+        "presentation": { "reveal": "always", "panel": "dedicated" }
+      }
+    ]
+  },
+  "extensions": {
+    "recommendations": []
+  }
+}
